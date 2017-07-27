@@ -1,27 +1,68 @@
-# Laravel PHP Framework
+# php-jenkins
 
-[![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/laravel/framework)
-[![Total Downloads](https://poser.pugx.org/laravel/framework/d/total.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Stable Version](https://poser.pugx.org/laravel/framework/v/stable.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Unstable Version](https://poser.pugx.org/laravel/framework/v/unstable.svg)](https://packagist.org/packages/laravel/framework)
-[![License](https://poser.pugx.org/laravel/framework/license.svg)](https://packagist.org/packages/laravel/framework)
+Boilerplate for setting up continuous integration of PHP applications using [Jenkins](http://www.jenkins-ci.org). 
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as authentication, routing, sessions, queueing, and caching.
+## Installation / setup
 
-Laravel is accessible, yet powerful, providing tools needed for large, robust applications. A superb inversion of control container, expressive migration system, and tightly integrated unit testing support give you the tools you need to build any application with which you are tasked.
+Clone or [download](https://github.com/modess/php-jenkins/archive/master.zip) the files and directories, and add them to your repository.
 
-## Official Documentation
+Configure your source and test directories in:
 
-Documentation for the framework can be found on the [Laravel website](http://laravel.com/docs).
+**build.xml**
+```
+[...]
+<property name="src-dir" value="${basedir}/src" />
+[...]
+```
 
-## Contributing
+**phpunit.xml.dist**
+```
+[...]
+<directory>./tests/</directory>
+[...]
+<directory>./src/</directory>
+[...]
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](http://laravel.com/docs/contributions).
+**build/phpdox.xml**
+```
+[...]
+<project name="Example" source="src" workdir="${basedir}/api/xml">
+[...]
+```
 
-## Security Vulnerabilities
+## Build Targets
+Here are the list of build targets that are defined within the build.xml:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+* **build** *(DEFAULT)*
+* **build-clean**
+* **build-parallel**
+* **build-parallel-clean**
+* **build-common**
+* **tools-parallel** - Run tools in parallel
+* **clean** - Cleanup build and composer artifacts
+* **clean-build** - Cleanup build artifacts
+* **clean-composer** - Cleanup composer artifacts
+* **composer** - Install or update dependencies
+* **composer.check**
+* **composer-install** - Installing dependencies
+* **composer-update** - Updating dependencies
+* **lint** - Perform syntax check of sourcecode files
+* **pdepend** - Calculate software metrics using PHP_Depend
+* **phpcb** - Aggregate tool output with PHP_CodeBrowser
+* **phpcpd** - Find duplicate code using PHPCPD
+* **phpcs** - Find coding standard violations using PHP_CodeSniffer and print human readable output. Intended for usage on the command line before committing
+* **phpcs-ci** - Find coding standard violations using PHP_CodeSniffer creating a log file for the continuous integration server
+* **phpdox** - Generate API documentation using phpDox
+* **phploc** - Measure project size using PHPLOC
+* **phpmd** - Perform project mess detection using PHPMD and print human readable output. Intended for usage on the command line before committing.
+* **phpmd-ci** - Perform project mess detection using PHPMD creating a log file for the continuous integration server
+* **phpunit** - Run unit tests with PHPUnit
+* **prepare** - Prepare for build
 
-## License
+### References
 
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
+This boilerplate comes from glueing together a collection of post on the internet
+
+* [https://modess.io/continuous-integration-for-laravel-with-jenkins-and-git/](https://modess.io/continuous-integration-for-laravel-with-jenkins-and-git/)
+* [http://chris.schalenborgh.be/2013/04/05/deploy-php-projects-jenkins-os/](http://chris.schalenborgh.be/2013/04/05/deploy-php-projects-jenkins-os/)
